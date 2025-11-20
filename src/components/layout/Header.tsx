@@ -1,7 +1,13 @@
-import React from "react";
-import { Search, User } from "lucide-react";
+
+import {  Search, User } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router";
 
 const AdminHeader = () => {
+
+  const [addClient, setAddClient ] = useState(false);
+  const [addProject, setAddProject ] = useState(false);
+
   return (
     <header className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
       {/* Left: Logo */}
@@ -11,10 +17,11 @@ const AdminHeader = () => {
           alt="ClientSync"
           className="h-10 w-auto"
         />
-        <h1 className="text-xl font-semibold text-gray-800 hidden sm:block">
-          Admin Panel
-        </h1>
+
+        <Link to="/clients">Clients</Link>
+        <Link to="/projects">Projects</Link>
       </div>
+
 
       {/* Center: Search */}
       <div className="flex items-center bg-gray-100 px-3 py-2 rounded-xl w-full max-w-md">
@@ -28,11 +35,15 @@ const AdminHeader = () => {
 
       {/* Right: Actions */}
       <div className="flex items-center gap-4">
-        <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+        <button className="cursor-pointer px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+        onClick={()=>setAddClient(true)}
+        >
           + Add New Client
         </button>
 
-        <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-ingreendigo-700 transition">
+        <button className="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-ingreendigo-700 transition"
+        onClick={()=>setAddProject(true)}
+        >
           + Add New Project
         </button>
 

@@ -1,15 +1,17 @@
-import AdminHeader from "./components/layout/adminHeader"
-import Admin from "./pages/admin"
-
+import { Route, Routes } from "react-router";
+import AdminHeader from "./components/layout/Header";
+import Projects from "./pages/Projects";
+import Clients from "./pages/Clients";
 
 function App() {
   return (
     <>
-      
-      <AdminHeader/>
-      <Admin/>
+      <Routes>
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/clients" element={<Clients />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
