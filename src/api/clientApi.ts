@@ -7,7 +7,6 @@ export const fetchClients = async () => {
 
 
 export const saveClient = async ({firstName, lastName, email, phone, company}: any) => {
-
   const cleanData = {
     first_name: firstName || null,
     last_name: lastName || null,
@@ -17,5 +16,10 @@ export const saveClient = async ({firstName, lastName, email, phone, company}: a
   };
 
   const res = await axios.post("http://localhost:4000/api/client", cleanData);
+  return res;
+};
+
+export const deleteClient = async (id: number) => {
+  const res = await axios.delete(`http://localhost:4000/api/client/${id}`);
   return res;
 };

@@ -3,12 +3,17 @@ import {  Search, User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import ClientAddModel from "./Clients/ClientAddModel";
+import ProjectAddModel from "./Projects/ProjectAddModel";
+import { fetchProjects } from "../../api/projectApi";
 
 const AdminHeader = () => {
 
   const [addClient, setAddClient ] = useState(false);
   const [addProject, setAddProject ] = useState(false);
 
+
+
+  
 
   return (
     <header className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
@@ -23,10 +28,11 @@ const AdminHeader = () => {
         <Link to="/clients" onClick={()=>setAddClient(true)}>Clients</Link>
         <Link to="/projects" onClick={()=> setAddProject(true)}>Projects</Link>
         <ClientAddModel state={addClient} onClose={() => setAddClient(false)} />
+        <ProjectAddModel state={addProject} onClose={() => setAddProject(false)} />
       </div>
 
 
-      {/* Center: Search */}
+      {/* Center: Search
       <div className="flex items-center bg-gray-100 px-3 py-2 rounded-xl w-full max-w-md">
         <Search size={18} className="text-gray-500" />
         <input
@@ -34,7 +40,7 @@ const AdminHeader = () => {
           placeholder="Search clients or projects..."
           className="bg-transparent outline-none ml-2 text-sm w-full"
         />
-      </div>
+      </div> */}
 
       {/* Right: Actions */}
       <div className="flex items-center gap-4">
