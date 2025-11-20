@@ -2,11 +2,13 @@
 import {  Search, User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
+import ClientAddModel from "./Clients/ClientAddModel";
 
 const AdminHeader = () => {
 
   const [addClient, setAddClient ] = useState(false);
   const [addProject, setAddProject ] = useState(false);
+
 
   return (
     <header className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
@@ -18,8 +20,9 @@ const AdminHeader = () => {
           className="h-10 w-auto"
         />
 
-        <Link to="/clients">Clients</Link>
-        <Link to="/projects">Projects</Link>
+        <Link to="/clients" onClick={()=>setAddClient(true)}>Clients</Link>
+        <Link to="/projects" onClick={()=> setAddProject(true)}>Projects</Link>
+        <ClientAddModel state={addClient} onClose={() => setAddClient(false)} />
       </div>
 
 

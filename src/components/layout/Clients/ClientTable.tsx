@@ -18,6 +18,9 @@ const ClientTable: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
+  const [editClient, setEditClient] = useState(false);
+  const [deleteClient, setDeleteClient] = useState(false);
+
 
   useEffect(() => {
     const loadClients = async () => {
@@ -96,10 +99,14 @@ const ClientTable: React.FC = () => {
                   {client.company || "-"}
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-700">
-                  <button className="cursor-pointer px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-600 transition">
+                  <button className="cursor-pointer px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-600 transition"
+                  onClick={()=> setEditClient(true)}
+                  >
                     <Edit2 size={16} />
                   </button>
-                  <button className="cursor-pointer px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition ml-2">
+                  <button className="cursor-pointer px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition ml-2"
+                  onClick={()=> setDeleteClient(true)}
+                  >
                     <Trash2 size={16} />
                   </button>
                 </td>
