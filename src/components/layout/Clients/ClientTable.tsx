@@ -3,6 +3,8 @@ import { Edit2, Trash2 } from "lucide-react";
 import { deleteClient, fetchClients } from "../../../api/clientApi";
 import toast from "react-hot-toast";
 import { useClientContext } from "../../../context/ClientContext";
+import { Spinner } from "../../Spinner";
+import { ErrorMessage } from "../../ErrorMessage";
 
 interface Client {
   id: number;
@@ -47,8 +49,8 @@ const ClientTable: React.FC = () => {
   }, [refreshClients]);
   
 
-  if (loading) return <p className="p-4">Loading…</p>;
-  if (error) return <p className="p-4 text-red-500">{error}</p>;
+if (loading) return <Spinner />;
+if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="p-6">

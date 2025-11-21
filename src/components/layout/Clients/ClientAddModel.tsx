@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { saveClient } from "../../../api/clientApi";
 import toast from "react-hot-toast";
 import { useClientContext } from "../../../context/ClientContext";
+import { ButtonSpinner } from "../../ButtonSpinner";
 
 const ClientAddModel = (props: any) => {
   const [firstName, setFirstName] = useState("");
@@ -9,11 +10,13 @@ const ClientAddModel = (props: any) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  const {triggerClientRefresh} = useClientContext()
+  const { triggerClientRefresh } = useClientContext();
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    setSaving(true);
     try {
       await saveClient({
         firstName,
@@ -23,17 +26,16 @@ const ClientAddModel = (props: any) => {
         company,
       });
 
-      triggerClientRefresh()
+      triggerClientRefresh();
 
       toast.success("Client added successfully");
     } catch (error: any) {
       toast.error(error.message);
       console.log(error.message | error);
     }
-
+    setSaving(false);
     props.onClose();
   };
-
 
   return (
     <>
@@ -122,11 +124,13 @@ const ClientAddModel = (props: any) => {
               <div className="flex gap-2 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+                  disabled={saving}
+                  className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 flex items-center justify-center gap-2 disabled:opacity-50"
                   onClick={(e) => handleSave(e)}
                 >
-                  Add Client
+                  {saving ? <ButtonSpinner /> : "Add Client"}
                 </button>
+
                 <button
                   type="button"
                   onClick={props.onClose}

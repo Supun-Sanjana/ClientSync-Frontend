@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchClients } from "../../../api/clientApi";
-import { fetchProjects, saveProject } from "../../../api/projectApi";
+import { saveProject } from "../../../api/projectApi";
 import toast from "react-hot-toast";
 import { useProjectContext } from "../../../context/ProjectContext";
+import { ButtonSpinner } from "../../ButtonSpinner";
 
 const ProjectAddModel = (props: any) => {
   const [clientId, setClientId] = useState("");
@@ -11,6 +12,7 @@ const ProjectAddModel = (props: any) => {
   const [status, setStatus] = useState("pending");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const [clients, setClients] = useState([]);
 
@@ -27,6 +29,7 @@ const ProjectAddModel = (props: any) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    setSaving(true);
 
     const payload = {
       client_id: Number(clientId),
@@ -48,6 +51,7 @@ const ProjectAddModel = (props: any) => {
       console.log(error.message || error);
       toast.error(error.message || error);
     }
+    setSaving(false);
   };
 
   return (
@@ -155,11 +159,13 @@ const ProjectAddModel = (props: any) => {
               <div className="flex gap-2 pt-4">
                 <button
                   type="submit"
+                  disabled={saving}
+                  className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 flex items-center justify-center gap-2 disabled:opacity-50"
                   onClick={(e) => handleSave(e)}
-                  className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
                 >
-                  Add Project
+                  {saving ? <ButtonSpinner /> : "Add Client"}
                 </button>
+
                 <button
                   type="button"
                   onClick={props.onClose}

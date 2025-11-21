@@ -3,6 +3,8 @@ import { deleteProject, fetchProjects } from "../../../api/projectApi";
 import { Edit2, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useProjectContext } from "../../../context/ProjectContext";
+import { Spinner } from "../../Spinner";
+import { ErrorMessage } from "../../ErrorMessage";
 
 interface Project {
   id: number;
@@ -52,8 +54,9 @@ const ProjectTable: React.FC = () => {
     }
   };
 
-  if (loading) return <p className="p-4">Loading…</p>;
-  if (error) return <p className="p-4 text-red-500">{error}</p>;
+if (loading) return <Spinner />;
+if (error) return <ErrorMessage message={error} />;
+
 
   return (
     <>
