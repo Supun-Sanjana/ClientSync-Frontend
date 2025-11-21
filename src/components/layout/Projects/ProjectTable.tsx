@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { deleteProject, fetchProjects } from "../../../api/projectApi";
 import { Edit2, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
-import ProjectAddModel from "./ProjectAddModel";
+import { useProjectContext } from "../../../context/ProjectContext";
 
 interface Project {
   id: number;
@@ -22,23 +22,22 @@ const ProjectTable: React.FC = () => {
 
   const start_date = new Date().toISOString().split("T")[0];
 
+  const { refreshProjects } = useProjectContext();
+
+  const loadProjects = async () => {
+    try {
+      const res: any = await fetchProjects();
+      setProjects(res);
+    } catch (err) {
+      setError("Failed to fetch projects");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const res: any = await fetchProjects();
-        setProjects(res);
-      } catch (err) {
-        setError("Failed to fetch projects");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadProjects();
-  }, []);
-
-
-
+  }, [refreshProjects]);
 
   const handelDelete = async (id: number) => {
     try {

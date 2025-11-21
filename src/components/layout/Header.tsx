@@ -1,19 +1,15 @@
 
-import {  Search, User } from "lucide-react";
+import { User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import ClientAddModel from "./Clients/ClientAddModel";
 import ProjectAddModel from "./Projects/ProjectAddModel";
-import { fetchProjects } from "../../api/projectApi";
 
 const AdminHeader = () => {
 
   const [addClient, setAddClient ] = useState(false);
   const [addProject, setAddProject ] = useState(false);
 
-
-
-  
 
   return (
     <header className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
@@ -25,8 +21,9 @@ const AdminHeader = () => {
           className="h-10 w-auto"
         />
 
-        <Link to="/clients" onClick={()=>setAddClient(true)}>Clients</Link>
-        <Link to="/projects" onClick={()=> setAddProject(true)}>Projects</Link>
+        <Link to="/clients" >Clients</Link>
+        <Link to="/projects" >Projects</Link>
+
         <ClientAddModel state={addClient} onClose={() => setAddClient(false)} />
         <ProjectAddModel state={addProject} onClose={() => setAddProject(false)} />
       </div>
@@ -51,7 +48,9 @@ const AdminHeader = () => {
         </button>
 
         <button className="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-ingreendigo-700 transition"
-        onClick={()=>setAddProject(true)}
+        onClick={()=>setAddProject(true)
+
+        }
         >
           + Add New Project
         </button>

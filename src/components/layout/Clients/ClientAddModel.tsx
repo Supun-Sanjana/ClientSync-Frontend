@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { saveClient } from "../../../api/clientApi";
 import toast from "react-hot-toast";
+import { useClientContext } from "../../../context/ClientContext";
 
 const ClientAddModel = (props: any) => {
   const [firstName, setFirstName] = useState("");
@@ -9,17 +10,21 @@ const ClientAddModel = (props: any) => {
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
 
+  const {triggerClientRefresh} = useClientContext()
+
   const handleSave = async (e: any) => {
     e.preventDefault();
     try {
-      const res = await saveClient({
+      await saveClient({
         firstName,
         lastName,
         email,
         phone,
         company,
       });
-      console.log(res);
+
+      triggerClientRefresh()
+
       toast.success("Client added successfully");
     } catch (error: any) {
       toast.error(error.message);
@@ -28,6 +33,7 @@ const ClientAddModel = (props: any) => {
 
     props.onClose();
   };
+
 
   return (
     <>

@@ -1,7 +1,8 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchClients } from "../../../api/clientApi";
 import { fetchProjects, saveProject } from "../../../api/projectApi";
 import toast from "react-hot-toast";
+import { useProjectContext } from "../../../context/ProjectContext";
 
 const ProjectAddModel = (props: any) => {
   const [clientId, setClientId] = useState("");
@@ -13,14 +14,16 @@ const ProjectAddModel = (props: any) => {
 
   const [clients, setClients] = useState([]);
 
+  const { triggerRefresh } = useProjectContext();
+
   const Clients = async () => {
     const res = await fetchClients();
     setClients(res.clients);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     Clients();
-  },[])
+  }, []);
 
   const handleSave = async (e: any) => {
     e.preventDefault();
@@ -37,15 +40,14 @@ const ProjectAddModel = (props: any) => {
     try {
       await saveProject(payload);
       toast.success("Project added successfully");
-      await fetchProjects();
+
+      triggerRefresh(); // <-- tells Projects table to reload
 
       props.onClose();
-    } catch (error : any) {
+    } catch (error: any) {
       console.log(error.message || error);
       toast.error(error.message || error);
-      
     }
-
   };
 
   return (
@@ -153,7 +155,7 @@ const ProjectAddModel = (props: any) => {
               <div className="flex gap-2 pt-4">
                 <button
                   type="submit"
-                  onClick={(e)=> handleSave(e)}
+                  onClick={(e) => handleSave(e)}
                   className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
                 >
                   Add Project

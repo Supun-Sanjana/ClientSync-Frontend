@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { deleteClient, fetchClients } from "../../../api/clientApi";
 import toast from "react-hot-toast";
+import { useClientContext } from "../../../context/ClientContext";
 
 interface Client {
   id: number;
@@ -18,29 +19,33 @@ const ClientTable: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
+  const {refreshClients, triggerClientRefresh} = useClientContext()
+
   const handleDelete = async (id: number) => {
     try {
       await deleteClient(id);
       toast.success("Client deleted successfully");
+      triggerClientRefresh()
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    const loadClients = async () => {
-      try {
-        const res: any = await fetchClients();
-        setClient(res.clients);
-      } catch (err) {
-        setError("Failed to fetch clients");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadClients = async () => {
+    try {
+      const res: any = await fetchClients();
+      setClient(res.clients);
+    } catch (err) {
+      setError("Failed to fetch clients");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadClients();
-  }, [client]);
+  }, [refreshClients]);
+  
 
   if (loading) return <p className="p-4">Loading…</p>;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
@@ -90,7 +95,7 @@ const ClientTable: React.FC = () => {
                   </td>
 
                   <td className="px-4 py-2 text-sm text-gray-700">
-                    {client.first_name + " " + client.last_name}
+                    {`${client.first_name || ""} ${client.last_name || ""}`}
                   </td>
                   <td className="px-4 py-2 text-sm text-gray-700 capitalize">
                     {client.email}
