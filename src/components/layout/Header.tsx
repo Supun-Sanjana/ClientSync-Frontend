@@ -1,31 +1,25 @@
 import React, { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router";
-import { 
-  LayoutDashboard, 
-  Users, 
-  FolderKanban, 
-  User, 
-  Menu, 
+import { Link, NavLink, Outlet, useLocation } from "react-router";
+import {
+  LayoutDashboard,
+  Users,
+  FolderKanban,
+  User,
+  Menu,
   X,
-  Plus
+  Plus,
 } from "lucide-react";
 import ClientAddModel from "./Clients/ClientAddModel";
 import ProjectAddModel from "./Projects/ProjectAddModel";
 
-
-
-
 // --- Main Layout Component ---
 
-const AdminHeader = ({ children }:any) => {
+const AdminHeader = ({ children }: any) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [addClient, setAddClient] = useState(false);
   const [addProject, setAddProject] = useState(false);
-  
-  // Used to highlight the active menu item
-  // Note: if useLocation fails in preview without a Router, this defaults to empty object
-  const location = useLocation?.() || { pathname: '/dashboard' }; 
-  
+
+
   const navItems = [
     { name: "Dashboard", path: "/app/dashboard", icon: LayoutDashboard },
     { name: "Clients", path: "/app/clients", icon: Users },
@@ -34,28 +28,31 @@ const AdminHeader = ({ children }:any) => {
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
-      
       {/* --- Mobile Sidebar Overlay --- */}
       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 z-20 bg-black/50 lg:hidden" 
+        <div
+          className="fixed inset-0 z-20 bg-black/50 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* --- Sidebar --- */}
-      <aside className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         {/* Logo Area */}
         <div className="flex items-center h-16 px-6 border-b border-gray-100">
           <img
             src="/ClientSync logo.png"
             alt="ClientSync"
-            className="h-8 w-auto" 
+            className="h-8 w-auto"
           />
           {/* Fallback if logo image is missing */}
-          <span className="hidden text-xl font-bold text-indigo-900 ml-0">ClientSync</span>
-          
-
+          <span className="hidden text-xl font-bold text-indigo-900 ml-0">
+            ClientSync
+          </span>
         </div>
 
         {/* Navigation Links */}
@@ -64,20 +61,21 @@ const AdminHeader = ({ children }:any) => {
             Menu
           </div>
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
             return (
-              <Link
+              <NavLink
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive 
-                    ? 'bg-indigo-50 text-indigo-600 font-medium' 
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                }`}
+                className={({ isActive }) =>
+                  `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-indigo-50 text-indigo-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  }`
+                }
               >
                 <item.icon size={20} />
                 <span>{item.name}</span>
-              </Link>
+              </NavLink>
             );
           })}
         </nav>
@@ -85,17 +83,16 @@ const AdminHeader = ({ children }:any) => {
 
       {/* --- Main Content Area --- */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
           {/* Mobile Menu Button */}
-          <button 
-            className="lg:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-md" 
+          <button
+            className="lg:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-md"
             onClick={() => setIsSidebarOpen(true)}
           >
             <Menu size={24} />
           </button>
-          
+
           {/* Spacer to push content to right */}
           <div className="flex-1"></div>
 
@@ -128,14 +125,16 @@ const AdminHeader = ({ children }:any) => {
 
         {/* Page Content Rendered Here */}
         <main className="flex-1 overflow-y-auto bg-slate-50 ">
-         <Outlet/>
+          <Outlet />
         </main>
       </div>
 
       {/* --- Modals --- */}
       <ClientAddModel state={addClient} onClose={() => setAddClient(false)} />
-      <ProjectAddModel state={addProject} onClose={() => setAddProject(false)} />
-      
+      <ProjectAddModel
+        state={addProject}
+        onClose={() => setAddProject(false)}
+      />
     </div>
   );
 };
