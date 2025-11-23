@@ -23,8 +23,6 @@ const ProjectTable = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
-  const start_date = new Date().toISOString().split("T")[0];
-
   const { refreshProjects } = useProjectContext();
 
   const loadProjects = async () => {
@@ -60,110 +58,100 @@ const ProjectTable = () => {
 
   return (
     <>
-      <div className="p-6 h-screen bg-gray-900">
+      <div className="p-6 ">
         {/* Changed text color to white */}
-        <h1 className="text-2xl font-bold mb-6 text-white">Projects</h1>
+        <h1 className="text-2xl font-bold mb-6 text-gray-700">Projects</h1>
 
         {/* Changed border to dark gray and background to gray-800 */}
-        <div className="overflow-x-auto rounded-lg shadow-lg border border-gray-700 bg-gray-800">
-          <table className="min-w-full divide-y divide-gray-700">
-            {/* Changed header bg to gray-700 */}
-            <thead className="bg-gray-700">
-              <tr>
-                {/* Changed th text color to gray-300 */}
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  ID
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  Client ID
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  Title
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  Status
-                </th>
+        <div className="overflow-x-auto rounded-lg shadow-lg border border-gray-300 bg-gray-800">
+<table className="min-w-full divide-y divide-slate-200">
+  {/* Header with slate-50 background */}
+  <thead className="bg-slate-50">
+    <tr>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        ID
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        Client ID
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        Title
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        Status
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        Budget
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        Start Date
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        End Date
+      </th>
+      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        Action
+      </th>
+    </tr>
+  </thead>
 
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  Budget
-                </th>
-
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  Start Date
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  End Date
-                </th>
-
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            {projects.length > 0 ? (
-              // Changed divide color and body background
-              <tbody className="bg-gray-800 divide-y divide-gray-700">
-                {projects.map((project, index) => (
-                  <tr
-                    key={project.id}
-                    className={
-                      // Adjusted zebra striping for dark mode
-                      index % 2 === 0
-                        ? "bg-gray-800 hover:bg-gray-700/50"
-                        : "bg-gray-800/50 hover:bg-gray-700/50"
-                    }
-                  >
-                    {/* Changed td text color to gray-300 */}
-                    <td className="px-4 py-2 text-sm text-gray-300">
-                      {project.id}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300">
-                      {project.client_id}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300 font-medium text-white">
-                      {project.title}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300 capitalize">
-                      {/* You might want a badge here later, but text is updated for now */}
-                      <span className="px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-300">
-                         {project.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300 capitalize">
-                      $ {project.cost}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300">
-                      {start_date || "-"}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300">
-                      {project.end_date || "-"}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-300">
-                      <div className="flex gap-2">
-                        <button className="cursor-pointer p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">
-                          <Edit2 size={16} />
-                        </button>
-                        <button
-                          className="cursor-pointer p-2 bg-red-500/10 text-red-500 border border-red-500/20 rounded-lg hover:bg-red-500 hover:text-white transition"
-                          onClick={() => handelDelete(project.id)}
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            ) : (
-              <tbody>
-                <tr>
-                  <td colSpan={8} className="text-center py-6 text-gray-400">
-                    No Projects available
-                  </td>
-                </tr>
-              </tbody>
-            )}
-          </table>
+  {projects.length > 0 ? (
+    // Body with white background and slate dividers
+    <tbody className="bg-white divide-y divide-slate-200">
+      {projects.map((project) => (
+        <tr
+          key={project.id}
+          className="hover:bg-slate-50 transition-colors"
+        >
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+            #{project.id}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+            {project.client_id}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
+            {project.title}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100 capitalize">
+              {project.status}
+            </span>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+            $ {project.cost}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+            {project.start_date ? project.start_date.split("T")[0] : "-"}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+            {project.end_date ? project.end_date.split("T")[0] : "-"}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm">
+            <div className="flex gap-3">
+              <button className="cursor-pointer p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                <Edit2 size={18} />
+              </button>
+              <button
+                className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                onClick={() => handelDelete(project.id)}
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  ) : (
+    <tbody>
+      <tr>
+        <td colSpan={8} className="text-center py-10 text-slate-400 text-sm">
+          No Projects available
+        </td>
+      </tr>
+    </tbody>
+  )}
+</table>
         </div>
       </div>
     </>

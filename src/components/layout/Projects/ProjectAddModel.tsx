@@ -15,7 +15,7 @@ const ProjectAddModel = (props: any) => {
   const [saving, setSaving] = useState(false);
 
   const [clients, setClients] = useState([]);
-  const[cost, setCost] = useState("")
+  const [cost, setCost] = useState("");
 
   const { triggerRefresh } = useProjectContext();
 
@@ -38,8 +38,8 @@ const ProjectAddModel = (props: any) => {
       description,
       cost,
       status,
-      start_date: startDate || null,
-      end_date: endDate || null,
+      start_date: startDate ? new Date(startDate).toISOString() : null,
+      end_date: endDate ? new Date(endDate).toISOString() : null,
     };
 
     try {
@@ -121,31 +121,31 @@ const ProjectAddModel = (props: any) => {
               </div>
 
               <div>
-              {/* STATUS */}
-              <div>
-                <label className="block text-sm mb-1 font-medium">Status</label>
-                <select
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="in progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                </select>
-              </div>
+                {/* STATUS */}
+                <div>
+                  <label className="block text-sm mb-1 font-medium">
+                    Status
+                  </label>
+                  <select
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
 
-              <div>
-                <label className="block text-sm mb-1 font-medium">Cost</label>
-                <input
-                  type="number"
-                  onChange={(e) => setCost(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Project Cost"
-                />
+                <div>
+                  <label className="block text-sm mb-1 font-medium">Cost</label>
+                  <input
+                    type="number"
+                    onChange={(e) => setCost(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Project Cost"
+                  />
+                </div>
               </div>
-
-              </div>
-
 
               {/* DATES */}
               <div className="grid grid-cols-2 gap-4">
@@ -179,7 +179,7 @@ const ProjectAddModel = (props: any) => {
                   className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 flex items-center justify-center gap-2 disabled:opacity-50"
                   onClick={(e) => handleSave(e)}
                 >
-                  {saving ? <ButtonSpinner /> : "Add Client"}
+                  {saving ? <ButtonSpinner /> : "Add Project"}
                 </button>
 
                 <button

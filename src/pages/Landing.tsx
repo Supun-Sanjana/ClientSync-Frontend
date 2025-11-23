@@ -1,9 +1,10 @@
 import React from "react";
-import Navbar from "./Landing/Navbar";
-import Hero from "./Landing/Hero";
-import Pricing from "./Landing/Pricing";
-import Footer from "./Landing/Footer";
-import Features from "./Landing/Features";
+import Navbar from "../components/layout/Landing/Navbar";
+import Hero from "../components/layout/Landing/Hero";
+import Pricing from "../components/layout/Landing/Pricing";
+import Footer from "../components/layout/Landing/Footer";
+import Features from "../components/layout/Landing/Features";
+import { Link } from "react-router";
 
 const Landing = () => {
   return (
@@ -20,9 +21,9 @@ const Landing = () => {
           <p className="text-indigo-100 text-lg mb-8">
             Join 10,000+ teams organizing their business with Nexus.
           </p>
-          <button className="bg-white text-indigo-600 px-10 py-4 rounded-full font-bold hover:bg-indigo-50 transition shadow-lg">
+          <Link to="/login" className="bg-white text-indigo-600 px-10 py-4 rounded-full font-bold hover:bg-indigo-50 transition shadow-lg">
             Start Your Free Trial
-          </button>
+          </Link>
         </div>
       </section>
       <Footer />

@@ -19,7 +19,6 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-slate-600 hover:text-indigo-600 transition">Features</a>
-            <a href="#testimonials" className="text-slate-600 hover:text-indigo-600 transition">Testimonials</a>
             <a href="#pricing" className="text-slate-600 hover:text-indigo-600 transition">Pricing</a>
             <Link to="/login" className="bg-indigo-600 text-white px-5 py-2 rounded-full font-medium hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
               Get Started

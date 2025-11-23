@@ -23,3 +23,13 @@ export const deleteClient = async (id: number) => {
   const res = await axios.delete(`http://localhost:4000/api/client/${id}`);
   return res;
 };
+
+export const clientCount = async ()=>{
+  try {
+    const res = await axios.get("http://localhost:4000/api/client/count");
+    return res.data.count;
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
