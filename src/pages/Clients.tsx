@@ -5,7 +5,7 @@ import ClientTable from "../components/layout/Clients/ClientTable";
 const Clients = () => {
   return (
     <div>
-      <AdminHeader />
+
       <ClientTable/>
     </div>
   );

@@ -5,7 +5,7 @@ import ProjectTable from "../components/layout/Projects/ProjectTable";
 const Projects = () => {
   return (
     <div>
-      <AdminHeader />
+
       <ProjectTable />
     </div>
   );

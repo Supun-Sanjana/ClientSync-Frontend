@@ -1,17 +1,13 @@
-import { Route, Routes } from "react-router";
+import { Outlet } from "react-router";
 import AdminHeader from "./components/layout/Header";
-import Projects from "./pages/Projects";
-import Clients from "./pages/Clients";
 
-function App() {
+export default function AppLayout() {
   return (
     <>
-      <Routes>
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/clients" element={<Clients />} />
-      </Routes>
+      <AdminHeader />
+      <div>
+        <Outlet/>
+      </div>
     </>
   );
 }
-
-export default App;

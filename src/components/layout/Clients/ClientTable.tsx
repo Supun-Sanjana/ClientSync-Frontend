@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { deleteClient, fetchClients } from "../../../api/clientApi";
 import toast from "react-hot-toast";
@@ -16,7 +16,7 @@ interface Client {
   created_at: string;
 }
 
-const ClientTable: React.FC = () => {
+const ClientTable = () => {
   const [client, setClient] = useState<Client[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -53,7 +53,7 @@ if (loading) return <Spinner />;
 if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-screen bg-gray-800">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Clients</h1>
 
       <div className="overflow-x-auto rounded-lg shadow-lg border border-gray-200">

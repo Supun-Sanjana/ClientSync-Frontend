@@ -15,6 +15,7 @@ const ProjectAddModel = (props: any) => {
   const [saving, setSaving] = useState(false);
 
   const [clients, setClients] = useState([]);
+  const[cost, setCost] = useState("")
 
   const { triggerRefresh } = useProjectContext();
 
@@ -35,6 +36,7 @@ const ProjectAddModel = (props: any) => {
       client_id: Number(clientId),
       title,
       description,
+      cost,
       status,
       start_date: startDate || null,
       end_date: endDate || null,
@@ -118,6 +120,7 @@ const ProjectAddModel = (props: any) => {
                 ></textarea>
               </div>
 
+              <div>
               {/* STATUS */}
               <div>
                 <label className="block text-sm mb-1 font-medium">Status</label>
@@ -130,6 +133,19 @@ const ProjectAddModel = (props: any) => {
                   <option value="completed">Completed</option>
                 </select>
               </div>
+
+              <div>
+                <label className="block text-sm mb-1 font-medium">Cost</label>
+                <input
+                  type="number"
+                  onChange={(e) => setCost(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Project Cost"
+                />
+              </div>
+
+              </div>
+
 
               {/* DATES */}
               <div className="grid grid-cols-2 gap-4">
