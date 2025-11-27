@@ -1,11 +1,10 @@
 import React from "react";
 import AdminHeader from "../components/layout/Header";
-import ProjectTable from "../components/layout/Projects/ProjectTable";
+import ProjectTable from "./Projects/ProjectTable";
 
 const Projects = () => {
   return (
     <div>
-
       <ProjectTable />
     </div>
   );

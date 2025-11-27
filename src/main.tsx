@@ -7,12 +7,13 @@ import { ProjectProvider } from "./context/ProjectContext.tsx";
 import { ClientProvider } from "./context/ClientContext.tsx";
 import { createBrowserRouter } from "react-router";
 import Landing from "./pages/Landing.tsx";
-import AuthPage from "./components/layout/Signin/Auth.tsx";
 import Projects from "./pages/Projects.tsx";
 import Clients from "./pages/Clients.tsx";
 import AppLayout from "./App.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import Dashboard from "./components/layout/Dashboard/Dashboard.tsx";
+import Dashboard from "./pages/Dashboard/Dashboard.tsx";
+import Signin from "./pages/Auth/Signin.tsx";
+import Signup from "./pages/Auth/Signup.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <AuthPage />,
+        element: <Signin />,
+      },
+      {
+        path: "register",
+        element: <Signup />,
       },
       {
         path: "app",

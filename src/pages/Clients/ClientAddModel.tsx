@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { saveClient } from "../../../api/clientApi";
+import { saveClient } from "../../api/clientApi";
 import toast from "react-hot-toast";
-import { useClientContext } from "../../../context/ClientContext";
-import { ButtonSpinner } from "../../ButtonSpinner";
+import { useClientContext } from "../../context/ClientContext";
+import { ButtonSpinner } from "../../components/ButtonSpinner";
 
 const ClientAddModel = (props: any) => {
   const [firstName, setFirstName] = useState("");

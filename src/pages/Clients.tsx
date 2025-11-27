@@ -1,12 +1,11 @@
 import React from "react";
 import AdminHeader from "../components/layout/Header";
-import ClientTable from "../components/layout/Clients/ClientTable";
+import ClientTable from "./Clients/ClientTable";
 
 const Clients = () => {
   return (
     <div>
-
-      <ClientTable/>
+      <ClientTable />
     </div>
   );
 };

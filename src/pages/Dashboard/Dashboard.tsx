@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchProjects, getActiveCount, getRevenue } from "../../../api/projectApi";
+import {
+  fetchProjects,
+  getActiveCount,
+  getRevenue,
+} from "../../api/projectApi";
 import { Link } from "react-router";
-import { clientCount } from "../../../api/clientApi";
+import { clientCount } from "../../api/clientApi";
 
 interface Project {
   id: number;
@@ -18,10 +22,10 @@ interface Project {
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [revenue, setRevenue] = useState(0)
-  const [activeProjects, setActiveProjects]=useState(0)
-  const [completeProjects, setCompleteProjects]=useState(0)
-  const [clients, setClients]=useState(0)
+  const [revenue, setRevenue] = useState(0);
+  const [activeProjects, setActiveProjects] = useState(0);
+  const [completeProjects, setCompleteProjects] = useState(0);
+  const [clients, setClients] = useState(0);
 
   const loadProjects = async () => {
     try {
@@ -31,22 +35,21 @@ const Dashboard = () => {
       throw new Error("Failed to fetch projects");
     }
   };
-const loadRevenue = async () =>{
-    const res:any = getRevenue();
+  const loadRevenue = async () => {
+    const res: any = getRevenue();
     setRevenue(res);
+  };
 
-}
-
-const loadActiveprojects = async ()=>{
-    const {active, complete} = await getActiveCount();
+  const loadActiveprojects = async () => {
+    const { active, complete } = await getActiveCount();
     setActiveProjects(active);
-    setCompleteProjects(complete)
-}
+    setCompleteProjects(complete);
+  };
 
-const loadClient =async ()=>{
-    const count:any =await clientCount();
+  const loadClient = async () => {
+    const count: any = await clientCount();
     setClients(count);
-}
+  };
 
   useEffect(() => {
     loadProjects();
@@ -117,7 +120,9 @@ const loadClient =async ()=>{
                   <p className="text-sm font-medium text-slate-500">
                     Active Projects
                   </p>
-                  <h3 className="text-2xl font-bold text-slate-900 mt-2">{activeProjects}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mt-2">
+                    {activeProjects}
+                  </h3>
                 </div>
                 <div className="p-2 bg-blue-50 rounded-lg">
                   <svg
@@ -144,7 +149,9 @@ const loadClient =async ()=>{
                   <p className="text-sm font-medium text-slate-500">
                     Completed
                   </p>
-                  <h3 className="text-2xl font-bold text-slate-900 mt-2">{completeProjects}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mt-2">
+                    {completeProjects}
+                  </h3>
                 </div>
                 <div className="p-2 bg-green-50 rounded-lg">
                   <svg
@@ -169,7 +176,9 @@ const loadClient =async ()=>{
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm font-medium text-slate-500">Clients</p>
-                  <h3 className="text-2xl font-bold text-slate-900 mt-2">{clients}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mt-2">
+                    {clients}
+                  </h3>
                 </div>
                 <div className="p-2 bg-orange-50 rounded-lg">
                   <svg
@@ -261,7 +270,10 @@ const loadClient =async ()=>{
 
               {/* Footer / View All */}
               <div className="p-4 border-t border-slate-200 bg-slate-50">
-                <Link to="/app/projects" className="text-indigo-600 text-sm font-medium hover:text-indigo-800 hover:underline transition-colors flex items-center gap-1">
+                <Link
+                  to="/app/projects"
+                  className="text-indigo-600 text-sm font-medium hover:text-indigo-800 hover:underline transition-colors flex items-center gap-1"
+                >
                   View All Projects <span>&rarr;</span>
                 </Link>
               </div>

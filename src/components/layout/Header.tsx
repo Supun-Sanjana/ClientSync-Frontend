@@ -1,24 +1,20 @@
-import React, { useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router";
+import { useState } from "react";
+import { NavLink, Outlet } from "react-router";
 import {
   LayoutDashboard,
   Users,
   FolderKanban,
   User,
   Menu,
-  X,
   Plus,
 } from "lucide-react";
-import ClientAddModel from "./Clients/ClientAddModel";
-import ProjectAddModel from "./Projects/ProjectAddModel";
+import ClientAddModel from "../../pages/Clients/ClientAddModel";
+import ProjectAddModel from "../../pages/Projects/ProjectAddModel";
 
-// --- Main Layout Component ---
-
-const AdminHeader = ({ children }: any) => {
+const AdminHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [addClient, setAddClient] = useState(false);
   const [addProject, setAddProject] = useState(false);
-
 
   const navItems = [
     { name: "Dashboard", path: "/app/dashboard", icon: LayoutDashboard },

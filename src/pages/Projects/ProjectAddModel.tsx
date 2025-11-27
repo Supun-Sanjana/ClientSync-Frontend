@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchClients } from "../../../api/clientApi";
-import { saveProject } from "../../../api/projectApi";
+import { fetchClients } from "../../api/clientApi";
+import { saveProject } from "../../api/projectApi";
 import toast from "react-hot-toast";
-import { useProjectContext } from "../../../context/ProjectContext";
-import { ButtonSpinner } from "../../ButtonSpinner";
+import { useProjectContext } from "../../context/ProjectContext";
+import { ButtonSpinner } from "../../components/ButtonSpinner";
 
 const ProjectAddModel = (props: any) => {
   const [clientId, setClientId] = useState("");

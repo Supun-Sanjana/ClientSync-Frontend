@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Edit2, Trash2 } from "lucide-react";
-import { deleteClient, fetchClients } from "../../../api/clientApi";
+import { deleteClient, fetchClients } from "../../api/clientApi";
 import toast from "react-hot-toast";
-import { useClientContext } from "../../../context/ClientContext";
-import { Spinner } from "../../Spinner";
-import { ErrorMessage } from "../../ErrorMessage";
+import { useClientContext } from "../../context/ClientContext";
+import { Spinner } from "../../components/Spinner";
+import { ErrorMessage } from "../../components/ErrorMessage";
 
 interface Client {
   id: number;
