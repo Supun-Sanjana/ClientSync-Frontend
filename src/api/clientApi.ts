@@ -8,7 +8,7 @@ export const fetchClients = async () => {
   const user_id = getUserId();
 
   try {
-    const res = await axios.get(`http://localhost:4000/api/client/${user_id}`);
+    const res = await axios.get(import.meta.env.VITE_BACKEND_URL +`/client/${user_id}`);
     // console.log(res.data);
     
     return res.data;  // FIX: return the array
@@ -36,7 +36,7 @@ export const saveClient = async ({ firstName, lastName, email, phone, company }:
   };
 
   try {
-    const res = await axios.post("http://localhost:4000/api/client", cleanData);
+    const res = await axios.post(import.meta.env.VITE_BACKEND_URL +"/client", cleanData);
     return res.data.clients;  // returns inserted client
   } catch (err) {
     console.log("Save client error:", err);
@@ -49,7 +49,7 @@ export const saveClient = async ({ firstName, lastName, email, phone, company }:
 // -------------------------------------------
 export const deleteClient = async (id: number) => {
   try {
-    const res = await axios.delete(`http://localhost:4000/api/client/${id}`);
+    const res = await axios.delete(import.meta.env.VITE_BACKEND_URL +`/client/${id}`);
     return res.data;
   } catch (err) {
     console.log("Delete client error:", err);
@@ -65,7 +65,7 @@ export const clientCount = async () => {
   if (!user_id) return 0;
 
   try {
-    const res = await axios.get(`http://localhost:4000/api/client/count/${user_id}`);
+    const res = await axios.get(import.meta.env.VITE_BACKEND_URL + `/client/count/${user_id}`);
     return Number(res.data.count) || 0;
   } catch (error) {
     console.log("Client count error:", error);
@@ -82,7 +82,8 @@ export const updateClient = async (id: number, payload: any) => {
   console.log(payload);
   
   try {
-    const res = await axios.put(`http://localhost:4000/api/client/${id}`, payload);
+    const res = await axios.put(import.meta.env.VITE_BACKEND_URL + `/client/${id}`, payload);
+    console.log(import.meta.env.VITE_BACKEND_URL);
     return res.data;
   } catch (err) {
     console.log("Update client error:", err);

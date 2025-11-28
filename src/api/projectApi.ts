@@ -39,7 +39,7 @@ export const fetchProjects = async () => {
   const user_id = getUserId();
   if (!user_id) return [];
 
-  const res = await axios.get(`http://localhost:4000/api/project/user/${user_id}`);
+  const res = await axios.get(import.meta.env.VITE_BACKEND_URL +`/project/user/${user_id}`);
   return res.data.projects;
 };
 
@@ -51,14 +51,14 @@ export const saveProject = async (payload: any) => {
   // inject user_id into payload
   const finalPayload = { ...payload, user_id };
 
-  const res = await axios.post("http://localhost:4000/api/project", finalPayload);
+  const res = await axios.post(import.meta.env.VITE_BACKEND_URL +"/project", finalPayload);
   return res.data;
 };
 
 
 export const deleteProject = async (id: number) => {
   const user_id = getUserId();
-  const res = await axios.delete(`http://localhost:4000/api/project/${user_id}/${id}`);
+  const res = await axios.delete(import.meta.env.VITE_BACKEND_URL +`/project/${user_id}/${id}`);
   return res.data;
 };
 
@@ -71,7 +71,7 @@ export const getRevenue = async () => {
   const user_id = getUserId();
   if (!user_id) return 0;
 
-  const res = await axios.get(`http://localhost:4000/api/project/revenue/${user_id}`);
+  const res = await axios.get(import.meta.env.VITE_BACKEND_URL +`/project/revenue/${user_id}`);
   // console.log(res.data);
   
   return res.data.revenue; // backend returns { revenue: x }
@@ -83,8 +83,7 @@ export const getActiveCount = async () => {
   if (!user_id) return { active: 0, complete: 0 };
 
   try {
-    const response = await axios.get(
-      `http://localhost:4000/api/project/active-count/${user_id}`
+    const response = await axios.get(import.meta.env.VITE_BACKEND_URL +`/project/active-count/${user_id}`
     );
     return response.data;
   } catch (error: any) {
@@ -100,6 +99,6 @@ export const updateProject = async (id: number, payload: any) => {
   const user_id = getUserId();
   console.log(user_id);
   
-  const res = await axios.put(`http://localhost:4000/api/project/${user_id}/${id}`, payload);
+  const res = await axios.put(import.meta.env.VITE_BACKEND_URL +`/project/${user_id}/${id}`, payload);
   return res.data;
 }

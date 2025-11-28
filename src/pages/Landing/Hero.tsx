@@ -54,12 +54,12 @@ const Hero = () => {
                 <div className="text-2xl font-bold text-indigo-900">$124,500</div>
               </div>
               <div className="bg-purple-50 p-4 rounded-xl">
-                <div className="text-purple-400 text-xs font-bold uppercase mb-1">New Leads</div>
-                <div className="text-2xl font-bold text-purple-900">+450</div>
+                <div className="text-purple-400 text-xs font-bold uppercase mb-1">Active Projects</div>
+                <div className="text-2xl font-bold text-purple-900">+45</div>
               </div>
               <div className="bg-emerald-50 p-4 rounded-xl">
-                <div className="text-emerald-400 text-xs font-bold uppercase mb-1">Conversion</div>
-                <div className="text-2xl font-bold text-emerald-900">22.4%</div>
+                <div className="text-emerald-400 text-xs font-bold uppercase mb-1">Clients</div>
+                <div className="text-2xl font-bold text-emerald-900">22</div>
               </div>
            </div>
            <div className="space-y-3">

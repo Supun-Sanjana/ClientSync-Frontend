@@ -41,7 +41,7 @@ const AdminHeader = () => {
 
       {/* --- Sidebar --- */}
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
+        className={`flex flex-col fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -79,7 +79,7 @@ const AdminHeader = () => {
           </nav>
 
           <div className="p-4">
-            <button className="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors bg-red-500 text-white w-full"
+            <button className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors bg-orange-600 hover:bg-orange-700 hover:text-gray-300 text-red-100 w-full"
             onClick={()=>handleLogout()}
             >
               <LogOut /> Logout
