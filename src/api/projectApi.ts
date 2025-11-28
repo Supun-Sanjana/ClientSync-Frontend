@@ -92,3 +92,14 @@ export const getActiveCount = async () => {
     return { active: 0, complete: 0 };
   }
 };
+
+//-----------------------------
+//update project
+//-----------------------------
+export const updateProject = async (id: number, payload: any) => {
+  const user_id = getUserId();
+  console.log(user_id);
+  
+  const res = await axios.put(`http://localhost:4000/api/project/${user_id}/${id}`, payload);
+  return res.data;
+}

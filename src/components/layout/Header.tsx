@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   Users,
   FolderKanban,
-  User,
   Menu,
   Plus,
   LogOut,
@@ -27,7 +26,7 @@ const AdminHeader = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -41,22 +40,21 @@ const AdminHeader = () => {
       )}
 
       {/* --- Sidebar --- */}
-      <aside className="flex flex-col  fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0">
-        {/* Logo Area */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <div className="flex items-center h-16 px-6 border-b border-gray-100">
           <img
             src="/ClientSync logo.png"
             alt="ClientSync"
             className="h-8 w-auto"
           />
-          {/* Fallback if logo image is missing */}
-          <span className="hidden text-xl font-bold text-indigo-900 ml-0">
-            ClientSync
-          </span>
         </div>
 
-        <div className="flex flex-col h-full">
-          {/* Navigation menu */}
+        {/* Make this container scrollable */}
+        <div className="flex flex-col h-full overflow-y-auto">
           <nav className="p-4 space-y-2 flex-1">
             <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-4 mt-2">
               Menu
@@ -79,11 +77,11 @@ const AdminHeader = () => {
               </NavLink>
             ))}
           </nav>
-          {/* Logout button at bottom */}
+
           <div className="p-4">
-            <button 
+            <button className="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors bg-red-500 text-white w-full"
             onClick={()=>handleLogout()}
-            className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-800 w-full">
+            >
               <LogOut /> Logout
             </button>
           </div>

@@ -16,6 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import ClientUpdateModel from "./ClientUpdateModel";
 
 interface Client {
   id: number;
@@ -32,13 +33,12 @@ const ClientTable = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
+  const [updateState, setUpdateState] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
   const { refreshClients, triggerClientRefresh } = useClientContext();
 
-  
-    const [selectedClientId, setSelectedClientId ] = useState<number | null>(
-      null
-    );
-  
+  const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
 
   // const handleDelete = async (id: number) => {
   //   try {
@@ -126,9 +126,16 @@ const ClientTable = () => {
 
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex gap-3">
-                      <button className="cursor-pointer p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                      <button
+                        onClick={() => {
+                          setSelectedClient(client);
+                          setUpdateState(true);
+                        }}
+                        className="cursor-pointer p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                      >
                         <Edit2 size={18} />
                       </button>
+
                       <button
                         className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                         onClick={() => setSelectedClientId(client.id)}
@@ -155,45 +162,50 @@ const ClientTable = () => {
         </table>
       </div>
 
-       <AlertDialog
-              open={selectedClientId !== null}
-              onOpenChange={(open) => {
-                if (!open) setSelectedClientId(null);
+      <AlertDialog
+        open={selectedClientId !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedClientId(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this
+              project.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (selectedClientId !== null) {
+                  try {
+                    await deleteClient(selectedClientId);
+                    triggerClientRefresh();
+                    toast.success("Project deleted successfully");
+                    const updated = await fetchClients();
+                    setClient(updated);
+                  } catch (err: any) {
+                    toast.error(err.message || "Failed to delete project");
+                  } finally {
+                    setSelectedClientId(null);
+                  }
+                }
               }}
             >
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete this
-                    project.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={async () => {
-                      if (selectedClientId !== null) {
-                        try {
-                          await deleteClient(selectedClientId);
-                          triggerClientRefresh();
-                          toast.success("Project deleted successfully");
-                          const updated = await fetchClients();
-                          setClient(updated);
-                        } catch (err: any) {
-                          toast.error(err.message || "Failed to delete project");
-                        } finally {
-                          setSelectedClientId(null);
-                        }
-                      }
-                    }}
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
+      <ClientUpdateModel
+        state={updateState}
+        onClose={() => setUpdateState(false)}
+        client={selectedClient}
+      />
     </div>
   );
 };

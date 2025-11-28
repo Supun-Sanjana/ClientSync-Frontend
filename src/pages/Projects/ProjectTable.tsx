@@ -16,6 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import ProjectUpdateModel from "./ProjectUpdateModel";
 
 interface Project {
   id: number;
@@ -33,6 +34,9 @@ const ProjectTable = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
     null
@@ -132,7 +136,13 @@ const ProjectTable = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <div className="flex gap-3">
-                        <button className="cursor-pointer p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                        <button
+                          className="cursor-pointer p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                          onClick={() => {
+                            setSelectedProject(project);
+                            setShowModal(true);
+                          }}
+                        >
                           <Edit2 size={18} />
                         </button>
                         <button
@@ -198,6 +208,12 @@ const ProjectTable = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <ProjectUpdateModel
+        state={showModal}
+        onClose={() => setShowModal(false)}
+        project={selectedProject}
+      />
     </>
   );
 };

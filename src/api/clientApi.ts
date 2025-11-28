@@ -72,3 +72,20 @@ export const clientCount = async () => {
     return 0;
   }
 };
+
+
+// -------------------------------------------
+// UPDATE CLIENT
+// -------------------------------------------
+
+export const updateClient = async (id: number, payload: any) => {
+  console.log(payload);
+  
+  try {
+    const res = await axios.put(`http://localhost:4000/api/client/${id}`, payload);
+    return res.data;
+  } catch (err) {
+    console.log("Update client error:", err);
+    throw err;
+  }
+};
