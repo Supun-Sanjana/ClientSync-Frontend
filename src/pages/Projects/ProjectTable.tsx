@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { deleteProject, fetchProjects } from "../../api/projectApi";
 import { Edit2, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";

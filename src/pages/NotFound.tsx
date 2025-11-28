@@ -1,4 +1,3 @@
-import React from 'react';
 import { Home, MoveLeft, FileQuestion } from 'lucide-react';
 
 const NotFound = () => {

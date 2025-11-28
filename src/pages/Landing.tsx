@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "./Landing/Navbar";
 import Hero from "./Landing/Hero";
 import Pricing from "./Landing/Pricing";
