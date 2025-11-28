@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import {
   LayoutDashboard,
   Users,
@@ -7,6 +7,7 @@ import {
   User,
   Menu,
   Plus,
+  LogOut,
 } from "lucide-react";
 import ClientAddModel from "../../pages/Clients/ClientAddModel";
 import ProjectAddModel from "../../pages/Projects/ProjectAddModel";
@@ -22,6 +23,13 @@ const AdminHeader = () => {
     { name: "Projects", path: "/app/projects", icon: FolderKanban },
   ];
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/")
+  };
+
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
       {/* --- Mobile Sidebar Overlay --- */}
@@ -33,11 +41,7 @@ const AdminHeader = () => {
       )}
 
       {/* --- Sidebar --- */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
+      <aside className="flex flex-col  fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0">
         {/* Logo Area */}
         <div className="flex items-center h-16 px-6 border-b border-gray-100">
           <img
@@ -51,13 +55,14 @@ const AdminHeader = () => {
           </span>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="p-4 space-y-2">
-          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-4 mt-2">
-            Menu
-          </div>
-          {navItems.map((item) => {
-            return (
+        <div className="flex flex-col h-full">
+          {/* Navigation menu */}
+          <nav className="p-4 space-y-2 flex-1">
+            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-4 mt-2">
+              Menu
+            </div>
+
+            {navItems.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
@@ -72,9 +77,17 @@ const AdminHeader = () => {
                 <item.icon size={20} />
                 <span>{item.name}</span>
               </NavLink>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
+          {/* Logout button at bottom */}
+          <div className="p-4">
+            <button 
+            onClick={()=>handleLogout()}
+            className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-800 w-full">
+              <LogOut /> Logout
+            </button>
+          </div>
+        </div>
       </aside>
 
       {/* --- Main Content Area --- */}
@@ -109,13 +122,6 @@ const AdminHeader = () => {
               <Plus size={16} />
               <span>Add Project</span>
             </button>
-
-            {/* Vertical Divider */}
-            <div className="h-8 w-px bg-gray-200 mx-2"></div>
-
-            <div className="h-9 w-9 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition text-gray-600">
-              <User size={20} />
-            </div>
           </div>
         </header>
 

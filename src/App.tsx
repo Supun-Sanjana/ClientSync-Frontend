@@ -6,7 +6,7 @@ export default function AppLayout() {
     <>
       <AdminHeader />
       <div>
-        <Outlet/>
+        {/* <Outlet/> */}
       </div>
     </>
   );

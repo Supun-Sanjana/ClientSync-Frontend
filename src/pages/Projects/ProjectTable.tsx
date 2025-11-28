@@ -6,6 +6,17 @@ import { useProjectContext } from "../../context/ProjectContext";
 import { Spinner } from "../../components/Spinner";
 import { ErrorMessage } from "../../components/ErrorMessage";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
 interface Project {
   id: number;
   client_id: number;
@@ -23,6 +34,10 @@ const ProjectTable = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    null
+  );
+
   const { refreshProjects } = useProjectContext();
 
   const loadProjects = async () => {
@@ -39,19 +54,6 @@ const ProjectTable = () => {
   useEffect(() => {
     loadProjects();
   }, [refreshProjects]);
-
-  const handelDelete = async (id: number) => {
-    try {
-      deleteProject(id);
-      toast.success("Project deleted successfully");
-
-      const updated = await fetchProjects();
-      setProjects(updated);
-    } catch (error: any) {
-      console.log(error.message || error);
-      toast.error(error.message || error);
-    }
-  };
 
   if (loading) return <Spinner />;
   if (error) return <ErrorMessage message={error} />;
@@ -135,7 +137,7 @@ const ProjectTable = () => {
                         </button>
                         <button
                           className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          onClick={() => handelDelete(project.id)}
+                          onClick={() => setSelectedProjectId(project.id)}
                         >
                           <Trash2 size={18} />
                         </button>
@@ -143,7 +145,7 @@ const ProjectTable = () => {
                     </td>
                   </tr>
                 ))}
-              </tbody >
+              </tbody>
             ) : (
               <tbody className="bg-white divide-y divide-slate-200">
                 <tr>
@@ -159,6 +161,43 @@ const ProjectTable = () => {
           </table>
         </div>
       </div>
+      <AlertDialog
+        open={selectedProjectId !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedProjectId(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this
+              project.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (selectedProjectId !== null) {
+                  try {
+                    await deleteProject(selectedProjectId);
+                    toast.success("Project deleted successfully");
+                    const updated = await fetchProjects();
+                    setProjects(updated);
+                  } catch (err: any) {
+                    toast.error(err.message || "Failed to delete project");
+                  } finally {
+                    setSelectedProjectId(null);
+                  }
+                }
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

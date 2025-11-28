@@ -6,6 +6,17 @@ import { useClientContext } from "../../context/ClientContext";
 import { Spinner } from "../../components/Spinner";
 import { ErrorMessage } from "../../components/ErrorMessage";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
 interface Client {
   id: number;
   first_name: string;
@@ -23,15 +34,21 @@ const ClientTable = () => {
 
   const { refreshClients, triggerClientRefresh } = useClientContext();
 
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteClient(id);
-      toast.success("Client deleted successfully");
-      triggerClientRefresh();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+    const [selectedClientId, setSelectedClientId ] = useState<number | null>(
+      null
+    );
+  
+
+  // const handleDelete = async (id: number) => {
+  //   try {
+  //     await deleteClient(id);
+  //     toast.success("Client deleted successfully");
+  //     triggerClientRefresh();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const loadClients = async () => {
     try {
@@ -114,7 +131,7 @@ const ClientTable = () => {
                       </button>
                       <button
                         className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        onClick={() => handleDelete(client.id)}
+                        onClick={() => setSelectedClientId(client.id)}
                       >
                         <Trash2 size={18} />
                       </button>
@@ -137,6 +154,46 @@ const ClientTable = () => {
           )}
         </table>
       </div>
+
+       <AlertDialog
+              open={selectedClientId !== null}
+              onOpenChange={(open) => {
+                if (!open) setSelectedClientId(null);
+              }}
+            >
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete this
+                    project.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={async () => {
+                      if (selectedClientId !== null) {
+                        try {
+                          await deleteClient(selectedClientId);
+                          triggerClientRefresh();
+                          toast.success("Project deleted successfully");
+                          const updated = await fetchClients();
+                          setClient(updated);
+                        } catch (err: any) {
+                          toast.error(err.message || "Failed to delete project");
+                        } finally {
+                          setSelectedClientId(null);
+                        }
+                      }
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
     </div>
   );
 };
