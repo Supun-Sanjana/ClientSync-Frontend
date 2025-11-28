@@ -143,9 +143,9 @@ const ProjectTable = () => {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </tbody >
             ) : (
-              <tbody>
+              <tbody className="bg-white divide-y divide-slate-200">
                 <tr>
                   <td
                     colSpan={8}

@@ -1,27 +1,46 @@
-import { Mail, Lock, ArrowRight, Zap, LockOpenIcon } from "lucide-react";
+import { Mail, Lock, ArrowRight, Zap } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { login } from "../../api/userApi";
 import toast from "react-hot-toast";
 
+
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [load, setload] = useState(false);
 
   const navigate = useNavigate();
 
+  const validate = () => {
+    if (email.includes("@") === false) {
+      return toast.error("Incorrect email !");
+    }
+
+    if (password.length === 0) {
+      return toast.error("Incorrect password !");
+    }
+  };
+
+
   const handelSave = async () => {
+    setload(true);
     try {
+      validate();
       const res = await login({ email, password });
-      if (!res) {
-        toast.error("email or password incorrect !");
-      }
+
       const token = res.token;
       localStorage.setItem("token", token);
       toast.success("Login Success");
+      setload(false);
       navigate("/app/dashboard");
-    } catch (error) {}
+    } catch (error) {
+      setload(false);
+      return toast.error("email or password incorrect !");
+    }
   };
+    
+
 
   return (
     <div className="min-h-screen flex bg-slate-50">
@@ -89,23 +108,32 @@ export default function Signin() {
             </div>
 
             {/* Submit Button */}
+
             <button
               className="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold 
         hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 
         flex items-center justify-center gap-2 group"
               onClick={() => handelSave()}
             >
-              Sign In
-              <ArrowRight
-                size={18}
-                className="group-hover:translate-x-1 transition-transform"
-              />
+              {load ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <div className="flex justify-center items-center gap-3">
+                  Sign In
+                  <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+                </div>
+              )}
+
+              
             </button>
           </form>
 
           <Link
             to="/register"
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex justify-center"
           >
             Don't have an account
           </Link>

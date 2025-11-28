@@ -80,7 +80,7 @@ const ClientTable = () => {
             </tr>
           </thead>
 
-          {client.length > 0 ? (
+          {client?.length > 0 ? (
             <tbody className="bg-white divide-y divide-slate-200">
               {client.map((client) => (
                 <tr
@@ -124,7 +124,7 @@ const ClientTable = () => {
               ))}
             </tbody>
           ) : (
-            <tbody>
+            <tbody className="bg-white divide-y divide-slate-200">
               <tr>
                 <td
                   colSpan={6}

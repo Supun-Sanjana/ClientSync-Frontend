@@ -36,7 +36,7 @@ const Dashboard = () => {
     }
   };
   const loadRevenue = async () => {
-    const res: any = getRevenue();
+    const res: any =await getRevenue();
     setRevenue(res);
   };
 

@@ -46,12 +46,10 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
     <ProjectProvider>
       <ClientProvider>
         <RouterProvider router={router} />
       </ClientProvider>
+      <Toaster position="bottom-right" />
     </ProjectProvider>
-    <Toaster position="bottom-right" />
-  </StrictMode>
 );

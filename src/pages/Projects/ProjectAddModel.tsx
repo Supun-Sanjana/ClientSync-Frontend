@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchClients } from "../../api/clientApi";
-import { saveProject } from "../../api/projectApi";
+import { getUserId, saveProject } from "../../api/projectApi";
 import toast from "react-hot-toast";
 import { useProjectContext } from "../../context/ProjectContext";
 import { ButtonSpinner } from "../../components/ButtonSpinner";
@@ -19,10 +19,13 @@ const ProjectAddModel = (props: any) => {
 
   const { triggerRefresh } = useProjectContext();
 
+
   const Clients = async () => {
     const res = await fetchClients();
     setClients(res.clients);
   };
+
+  const user_id = getUserId();
 
   useEffect(() => {
     Clients();
@@ -40,6 +43,7 @@ const ProjectAddModel = (props: any) => {
       status,
       start_date: startDate ? new Date(startDate).toISOString() : null,
       end_date: endDate ? new Date(endDate).toISOString() : null,
+      user_id
     };
 
     try {

@@ -1,9 +1,70 @@
-import { ArrowRight, Mail, Zap } from "lucide-react";
-import React from "react";
-import InputField from "../../components/InputField";
-import { Link } from "react-router";
+import {
+  ArrowRight,
+  AtSign,
+  Lock,
+  Mail,
+  User,
+  Zap,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
+import { register } from "../../api/userApi";
 
 const Signup = () => {
+  const [full_name, setFullName] = useState("");
+  const [user_name, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  
+    const [load, setload] = useState(false);
+
+  const navigate = useNavigate();
+
+  const isPasswordMatch = password === confirmPassword;
+
+  const isFormValid =
+    full_name &&
+    user_name &&
+    email &&
+    password &&
+    confirmPassword &&
+    isPasswordMatch;
+
+  const handelSave = async () => {
+    setload(true);
+    if (!full_name || !user_name || !email || !password || !confirmPassword) {
+      return toast.error("All fields are required");
+    }
+
+    if(email.includes("@") === false){
+      return toast.error("Invalid email");
+      
+    }
+
+    if (password !== confirmPassword) {
+      return toast.error("Passwords do not match");
+    }
+
+    try {
+      const res = await register({ full_name, user_name, email, password });
+      if (res) {
+        navigate("/login");
+      }
+      setload(false);
+      console.log(res.data);
+    } catch (error: any) {
+      setload(false);
+      console.log(error.mesage || error);
+      toast.error(error.message); 
+    }
+  };
+
   return (
     <div>
       <div className="min-h-screen flex bg-slate-50">
@@ -53,7 +114,7 @@ const Signup = () => {
         </div>
 
         {/* Right Side - Form Container */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 md:p-12 bg-white">
+        <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 md:p-10 bg-white">
           <div className="w-full max-w-md space-y-8">
             {/* Logo */}
             <div className="flex items-center gap-2 mb-8">
@@ -76,45 +137,168 @@ const Signup = () => {
             </div>
 
             {/* Form */}
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-              <InputField
-                label="Email Address"
-                type="email"
-                placeholder="name@company.com"
-                icon={Mail}
-              />
+            <form
+              className="space-y-6 p-2 "
+              onSubmit={(e) => e.preventDefault()}
+            >
+              {/* Full Name */}
+              <div className="flex justify-between gap-6">
+                <div className="space-y-1.5">
+                  <label className="font-medium text-gray-700 flex items-center gap-2">
+                    <User size={18} className="text-indigo-600" />
+                    Full Name
+                  </label>
 
-              <div className="space-y-1.5">
-                <InputField
-                  label="Password"
-                  type="password"
-                  placeholder="••••••••"
-                  icon={Lock}
-                  isPassword
-                />
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 
+                     bg-gray-50 focus:border-indigo-500 focus:ring-2 
+                     focus:ring-indigo-300 outline-none transition"
+                  />
+                </div>
 
-                <div className="flex justify-end">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
+                {/* Username */}
+                <div className="space-y-1.5">
+                  <label className="font-medium text-gray-700 flex items-center gap-2">
+                    <AtSign size={18} className="text-indigo-600" />
+                    Username
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder="johndoe123"
+                    onChange={(e) => setUserName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 
+                     bg-gray-50 focus:border-indigo-500 focus:ring-2 
+                     focus:ring-indigo-300 outline-none transition"
+                  />
                 </div>
               </div>
 
-              <button className="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 group">
-                Sign In
-                <ArrowRight
+              {/* Email Address */}
+              <div className="space-y-1.5">
+                <label className="font-medium text-gray-700 flex items-center gap-2">
+                  <Mail size={18} className="text-indigo-600" />
+                  Email Address
+                </label>
+
+                <input
+                  type="email"
+                  placeholder="name@company.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 
+                     bg-gray-50 focus:border-indigo-500 focus:ring-2 
+                     focus:ring-indigo-300 outline-none transition"
+                />
+              </div>
+
+              {/* Password */}
+              <div className="flex gap-6">
+                {/* Password */}
+                <div className="space-y-1.5 w-full">
+                  <label className="font-medium text-gray-700 flex items-center gap-2">
+                    <Lock size={18} className="text-indigo-600" />
+                    Password
+                  </label>
+
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        
+                      }}
+                      className={`w-full px-4 py-3 rounded-xl border pr-12
+          ${
+            !isPasswordMatch && confirmPassword
+              ? "border-red-400 bg-red-50"
+              : "border-gray-300 bg-gray-50"
+          }
+          focus:border-indigo-500 focus:ring-2 focus:ring-indigo-300 outline-none transition`}
+                    />
+
+                    {/* Show / Hide Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-indigo-600"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Confirm Password */}
+                <div className="space-y-1.5 w-full">
+                  <label className="font-medium text-gray-700 flex items-center gap-2">
+                    <Lock size={18} className="text-indigo-600" />
+                    Confirm Password
+                  </label>
+
+                  <div className="relative">
+                    <input
+                      type={showConfirm ? "text" : "password"}
+                      placeholder="••••••••"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className={`w-full px-4 py-3 rounded-xl border pr-12
+          ${
+            !isPasswordMatch && confirmPassword
+              ? "border-red-400 bg-red-50"
+              : "border-gray-300 bg-gray-50"
+          }
+          focus:border-indigo-500 focus:ring-2 focus:ring-indigo-300 outline-none transition`}
+                    />
+
+                    {/* Show / Hide Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirm(!showConfirm)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-indigo-600"
+                    >
+                      {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+
+                  {/* Live Error Message */}
+                  {!isPasswordMatch && confirmPassword && (
+                    <p className="text-sm text-red-600 font-medium mt-1">
+                      Passwords do not match
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                disabled={!isFormValid}
+                onClick={handelSave}
+                className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 group transition
+    ${
+      isFormValid
+        ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200"
+        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+    }`}
+              >
+               {load ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <div className="flex justify-center items-center gap-3">
+                  Sign In
+                  <ArrowRight
                   size={18}
                   className="group-hover:translate-x-1 transition-transform"
                 />
+                </div>
+              )}
               </button>
             </form>
 
             <Link
               to="/login"
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex justify-center"
             >
               Already have an account
             </Link>

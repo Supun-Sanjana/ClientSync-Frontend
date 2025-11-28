@@ -17,6 +17,7 @@ const ClientAddModel = (props: any) => {
   const handleSave = async (e: any) => {
     e.preventDefault();
     setSaving(true);
+    
     try {
       await saveClient({
         firstName,

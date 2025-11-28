@@ -4,3 +4,16 @@ export const login = async(data:any)=>{
     const res = await axios.post("http://localhost:4000/api/user/login",data)
     return res.data
 }
+
+export const register = async (data: any) => {
+  try {
+    const res = await axios.post(
+      "http://localhost:4000/api/user/register",
+      data
+    );
+    return res.data;
+
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
